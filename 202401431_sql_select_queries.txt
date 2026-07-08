@@ -1,0 +1,417 @@
+
+------My enrolled courses--------
+select a.course_id,a.title,a.description,a.price,a.category_id
+from course as a
+join enrolls as b
+on a.course_id=b.course_id
+where b.student_id=105
+order by b.enrollment_date desc;
+
+
+-- Details of  My completed lectures 
+SELECT 
+    l.lecture_id,
+    l.course_id,
+    l.title,
+    l.duration,
+    lp.completed_at
+FROM lecture_progress lp
+JOIN lecture l
+    ON lp.lecture_id = l.lecture_id
+   AND lp.course_id = l.course_id
+WHERE lp.student_id = 101
+  AND lp.status = 'completed'
+ORDER BY lp.completed_at DESC;
+
+
+--My Result of all course's test
+SELECT 
+    t.test_id,
+    t.test_type,
+    c.course_id,
+    c.title AS course_title,
+    ta.marks,
+    ta.timetaken
+FROM test_attempt ta
+JOIN test t
+    ON ta.test_id = t.test_id
+JOIN course c
+    ON t.course_id = c.course_id
+WHERE ta.student_id = 110
+ORDER BY c.course_id, t.test_id;
+
+
+--Recommendeded course related to your previous enrolled course category
+SELECT DISTINCT
+    c.course_id,
+    c.title,
+    c.description,
+    c.price,
+    c.category_id
+FROM course c
+WHERE c.category_id IN (
+    SELECT c2.category_id
+    FROM enrolls e
+    JOIN course c2
+        ON e.course_id = c2.course_id
+    WHERE e.student_id =105
+)
+AND c.course_id NOT IN (
+    SELECT course_id
+    FROM enrolls
+    WHERE student_id =105
+)
+ORDER BY c.course_id;
+
+
+-- My subscription details
+SELECT 
+    s.student_id,
+    s.name,
+    s.email,
+    s.subscription_date,
+    sub.subscription_id,
+    sub.plan_type,
+    sub.duration,
+    (s.subscription_date + (sub.duration || ' days')::INTERVAL) AS expiry_date
+FROM student s
+LEFT JOIN subscription sub
+    ON s.subscription_id = sub.subscription_id
+WHERE s.student_id =104;
+
+
+
+-- Courses taught by the educator 
+SELECT 
+    c.course_id,
+    c.title,
+    c.description,
+    c.price,
+    c.duration,
+    c.number_of_lectures
+FROM teaches t
+JOIN course c
+    ON t.course_id = c.course_id
+WHERE t.educator_id =201
+ORDER BY c.course_id;
+
+
+--Total enrollments in each course for given educator
+SELECT 
+    c.course_id,
+    c.title,
+    COUNT(e.student_id) AS total_enrollments
+FROM teaches t
+JOIN course c
+    ON t.course_id = c.course_id
+LEFT JOIN enrolls e
+    ON c.course_id = e.course_id
+WHERE t.educator_id =201
+GROUP BY c.course_id, c.title
+ORDER BY total_enrollments DESC, c.course_id;
+
+
+-- Student performance statistics
+SELECT 
+    s.student_id,
+    s.name AS student_name,
+    c.course_id,
+    c.title AS course_title,
+    COUNT(ta.test_id) AS tests_attempted,
+    AVG(ta.marks) AS avg_marks,
+    SUM(ta.marks) AS total_marks,
+    AVG(ta.timetaken) AS avg_time_taken
+FROM teaches th
+JOIN course c
+    ON th.course_id = c.course_id
+JOIN test t
+    ON c.course_id = t.course_id
+JOIN test_attempt ta
+    ON t.test_id = ta.test_id
+JOIN student s
+    ON ta.student_id = s.student_id
+WHERE th.educator_id =201
+GROUP BY s.student_id, s.name, c.course_id, c.title
+ORDER BY c.course_id, s.student_id;
+
+
+-- Ratings and reviews of courses
+SELECT 
+    c.course_id,
+    c.title AS course_title,
+    s.student_id,
+    s.name AS student_name,
+    r.rating,
+    r.comment
+FROM teaches t
+JOIN course c
+    ON t.course_id = c.course_id
+LEFT JOIN review r
+    ON c.course_id = r.course_id
+LEFT JOIN student s
+    ON r.student_id = s.student_id
+WHERE t.educator_id =201
+ORDER BY c.course_id, r.rating DESC; 
+
+
+-- Revenue generated from course taught by the given educator
+SELECT 
+    c.course_id,
+    c.title,
+    c.price,
+    COUNT(e.student_id) AS total_enrollments,
+    c.price * COUNT(e.student_id) AS estimated_revenue
+FROM teaches t
+JOIN course c
+    ON t.course_id = c.course_id
+LEFT JOIN enrolls e
+    ON c.course_id = e.course_id
+WHERE t.educator_id =201
+GROUP BY c.course_id, c.title, c.price
+ORDER BY estimated_revenue DESC, c.course_id;
+
+
+------ no of active students--------
+        SELECT  DISTINCT student_id
+        FROM (
+            SELECT student_id FROM enrolls
+            UNION
+            SELECT student_id FROM test_attempt
+            UNION
+            SELECT student_id FROM lecture_progress
+            UNION 
+            SELECT student_id FROM student
+            where subscription_id is not null
+        ) AS active_students;
+    
+   
+    --------no of active educator
+        SELECT  DISTINCT educator_id
+        FROM teaches
+    AS total_active_users;
+
+-----popular courses pending------
+SELECT 
+    c.course_id,
+    c.title,
+    COUNT(DISTINCT e.student_id) AS total_enrollments,
+    COALESCE(AVG(r.rating), 0) AS average_rating
+FROM course c
+LEFT JOIN enrolls e
+    ON c.course_id = e.course_id
+LEFT JOIN review r
+    ON c.course_id = r.course_id
+GROUP BY c.course_id, c.title
+ORDER BY total_enrollments DESC, average_rating DESC;
+
+
+
+-- Most active educators 
+SELECT 
+    ed.educator_id,
+    ed.name AS educator_name,
+    COUNT(DISTINCT t.course_id) AS total_courses,
+    COUNT(e.student_id) AS total_enrollments
+FROM educator ed
+LEFT JOIN teaches t
+    ON ed.educator_id = t.educator_id
+LEFT JOIN enrolls e
+    ON t.course_id = e.course_id
+GROUP BY ed.educator_id, ed.name
+ORDER BY total_enrollments DESC, total_courses DESC;
+
+
+
+--Revenue reports 
+SELECT 
+    SUM(c.price * course_enrollments.total_enrollments) AS total_estimated_revenue
+FROM course c
+JOIN (
+    SELECT 
+        course_id,
+        COUNT(student_id) AS total_enrollments
+    FROM enrolls
+    GROUP BY course_id
+) AS course_enrollments
+    ON c.course_id = course_enrollments.course_id;
+
+
+	--Subscription statistics
+SELECT 
+    sub.subscription_id,
+    sub.plan_type,
+    sub.duration,
+    COUNT(s.student_id) AS total_students
+FROM subscription sub
+LEFT JOIN student s
+    ON sub.subscription_id = s.subscription_id
+GROUP BY sub.subscription_id, sub.plan_type, sub.duration
+ORDER BY total_students DESC, sub.subscription_id;
+
+
+---educator salary details---
+
+SELECT 
+    educator_id,
+    name,
+    verification_status,
+    salary
+FROM educator
+WHERE educator_id =201;
+
+----total student on the platform----
+
+SELECT COUNT(*) AS total_students
+FROM student;
+
+---total educator on the platform---
+
+SELECT COUNT(*) AS total_educators
+FROM educator;
+
+-----NO of educator in different verification status----
+SELECT 
+    verification_status,
+    COUNT(*) AS total_educators
+FROM educator
+GROUP BY verification_status;
+
+
+---total courses on the platform----
+SELECT COUNT(*) AS total_courses
+FROM course;
+
+----student engagement summary---
+----no of courses , no of test attempt, no of review of each student
+SELECT 
+    s.student_id,
+    s.name,
+    COUNT(DISTINCT e.course_id) AS enrolled_courses,
+    COUNT(DISTINCT ta.test_id) AS tests_attempted,
+    COUNT(DISTINCT r.course_id) AS reviews_given
+FROM student s
+LEFT JOIN enrolls e
+    ON s.student_id = e.student_id
+LEFT JOIN test_attempt ta
+    ON s.student_id = ta.student_id
+LEFT JOIN review r
+    ON s.student_id = r.student_id
+GROUP BY s.student_id, s.name;
+
+
+---- study material for given course id---
+
+SELECT 
+    sm.material_id,
+    sm.course_id,
+    c.title AS course_title,
+    sm.file_link,
+    sm.description
+FROM study_material sm
+JOIN course c
+    ON sm.course_id = c.course_id
+WHERE sm.course_id =301 ;
+
+
+---study material for all courses of given studentid---
+SELECT 
+    c.course_id,
+    c.title,
+    sm.material_id,
+    sm.file_link,
+    sm.description
+FROM enrolls e
+JOIN course c
+    ON e.course_id = c.course_id
+JOIN study_material sm
+    ON c.course_id = sm.course_id
+WHERE e.student_id =105;
+
+
+---- no of study material per coursee---
+
+
+SELECT 
+    c.course_id,
+    c.title,
+    COUNT(sm.material_id) AS total_materials
+FROM course c
+LEFT JOIN study_material sm
+    ON c.course_id = sm.course_id
+GROUP BY c.course_id, c.title;
+
+
+
+-----  questions description for given testid---
+SELECT 
+    q.question_id,
+    q.test_id,
+    q.marks,
+    q.question_text
+FROM question q
+WHERE q.test_id =401;
+
+
+
+
+------questions for given course----
+
+SELECT 
+    c.course_id,
+    c.title,
+    t.test_id,
+    q.question_id,
+    q.question_text,
+    q.marks
+FROM course c
+JOIN test t
+    ON c.course_id = t.course_id
+JOIN question q
+    ON t.test_id = q.test_id
+WHERE c.course_id =301;
+
+
+
+----no of questions per test---
+SELECT 
+    t.test_id,
+    COUNT(q.question_id) AS total_questions
+FROM test t
+LEFT JOIN question q
+    ON t.test_id = q.test_id
+GROUP BY t.test_id;
+
+
+
+----course overview(course material+test +question) for all courses on platform---
+
+SELECT 
+    c.course_id,
+    c.title,
+    COUNT(DISTINCT sm.material_id) AS total_materials,
+    COUNT(DISTINCT t.test_id) AS total_tests,
+    COUNT(q.question_id) AS total_questions
+FROM course c
+LEFT JOIN study_material sm
+    ON c.course_id = sm.course_id
+LEFT JOIN test t
+    ON c.course_id = t.course_id
+LEFT JOIN question q
+    ON t.test_id = q.test_id
+GROUP BY c.course_id, c.title;
+
+
+-----bookmark lecture for given studentid----
+SELECT 
+    b.course_id,
+    c.title AS course_title,
+    b.lecture_id,
+    l.title AS lecture_title
+FROM bookmark b
+JOIN lecture l
+    ON b.lecture_id = l.lecture_id
+   AND b.course_id = l.course_id
+JOIN course c
+    ON b.course_id = c.course_id
+WHERE b.student_id = 104;
+
