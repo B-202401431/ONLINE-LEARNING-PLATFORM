@@ -1,0 +1,242 @@
+
+CREATE TABLE administrator (
+    admin_id        INT PRIMARY KEY,
+    name            VARCHAR(100) NOT NULL,
+    email           VARCHAR(150) NOT NULL UNIQUE,
+    phone           VARCHAR(20),
+    password        VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE category (
+    category_id     INT PRIMARY KEY,
+    category_name   VARCHAR(100) NOT NULL,
+    type            VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE subscription (
+    subscription_id     INT PRIMARY KEY,
+    plan_type           VARCHAR(20) NOT NULL,
+    duration            INT NOT NULL CHECK (duration > 0)
+);
+
+CREATE TABLE student (
+    student_id          INT PRIMARY KEY,
+    name                VARCHAR(100) NOT NULL,
+    email               VARCHAR(150) NOT NULL UNIQUE,
+    password            VARCHAR(100) NOT NULL,
+    phone               VARCHAR(20),
+    profile_details     TEXT,
+    subscription_date   DATE,
+    subscription_id     INT,
+
+    FOREIGN KEY (subscription_id)
+        REFERENCES subscription(subscription_id)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE educator (
+    educator_id           INT PRIMARY KEY,
+    verification_status   VARCHAR(20) NOT NULL DEFAULT 'pending'
+                          CHECK (verification_status IN ('pending', 'approved', 'rejected')),
+    name                  VARCHAR(100) NOT NULL,
+    email                 VARCHAR(150) NOT NULL UNIQUE,
+    password              VARCHAR(100) NOT NULL,
+    phone                 VARCHAR(20),
+    bio                   TEXT,
+    admin_id              INT,
+    salary                INT NOT NULL,
+
+    FOREIGN KEY (admin_id)
+        REFERENCES administrator(admin_id)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE course (
+    course_id              INT PRIMARY KEY,
+    number_of_lectures     INT NOT NULL CHECK (number_of_lectures >= 0),
+    duration               INT NOT NULL CHECK (duration > 0),
+    title                  VARCHAR(200) NOT NULL,
+    description            TEXT,
+    price                  NUMERIC(10,2) NOT NULL CHECK (price >= 0),
+    category_id            INT,
+    admin_id               INT,
+
+    FOREIGN KEY (category_id)
+        REFERENCES category(category_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    FOREIGN KEY (admin_id)
+        REFERENCES administrator(admin_id)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE test (
+    test_id         INT PRIMARY KEY,
+    test_type       VARCHAR(20) NOT NULL,
+    course_id       INT NOT NULL,
+
+    FOREIGN KEY (course_id)
+        REFERENCES course(course_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE lecture (
+    lecture_id      INT NOT NULL,
+    course_id       INT NOT NULL,
+    duration        INT NOT NULL CHECK (duration > 0),
+    video           TEXT NOT NULL,
+    title           VARCHAR(200) NOT NULL,
+
+    PRIMARY KEY (lecture_id, course_id),
+
+    FOREIGN KEY (course_id)
+        REFERENCES course(course_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE lecture_progress (
+    student_id      INT NOT NULL,
+    lecture_id      INT NOT NULL,
+    course_id       INT NOT NULL,
+    completed_at    TIMESTAMP,
+    status          VARCHAR(20) NOT NULL
+                    CHECK (status IN ('in_progress', 'completed')),
+
+    PRIMARY KEY (student_id, lecture_id, course_id),
+
+    FOREIGN KEY (student_id)
+        REFERENCES student(student_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    FOREIGN KEY (lecture_id, course_id)
+        REFERENCES lecture(lecture_id, course_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE study_material (
+    material_id     INT NOT NULL,
+    course_id       INT NOT NULL,
+    file_link       TEXT NOT NULL,
+    description     TEXT,
+
+    PRIMARY KEY (material_id, course_id),
+
+    FOREIGN KEY (course_id)
+        REFERENCES course(course_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE question (
+    question_id       INT NOT NULL,
+    test_id           INT NOT NULL,
+    marks             INT NOT NULL CHECK (marks > 0),
+    question_text     TEXT NOT NULL,
+
+    PRIMARY KEY (question_id, test_id),
+
+    FOREIGN KEY (test_id)
+        REFERENCES test(test_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE teaches (
+    course_id       INT NOT NULL,
+    educator_id     INT NOT NULL,
+
+    PRIMARY KEY (course_id, educator_id),
+
+    FOREIGN KEY (course_id)
+        REFERENCES course(course_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    FOREIGN KEY (educator_id)
+        REFERENCES educator(educator_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE enrolls (
+    student_id         INT NOT NULL,
+    course_id          INT NOT NULL,
+    enrollment_date    DATE NOT NULL,
+
+    PRIMARY KEY (student_id, course_id),
+
+    FOREIGN KEY (student_id)
+        REFERENCES student(student_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    FOREIGN KEY (course_id)
+        REFERENCES course(course_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE review (
+    student_id      INT NOT NULL,
+    course_id       INT NOT NULL,
+    rating          INT NOT NULL CHECK (rating BETWEEN 1 AND 5),
+    comment         TEXT,
+
+    PRIMARY KEY (student_id, course_id),
+
+    FOREIGN KEY (student_id)
+        REFERENCES student(student_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    FOREIGN KEY (course_id)
+        REFERENCES course(course_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE bookmark (
+    student_id      INT NOT NULL,
+    lecture_id      INT NOT NULL,
+    course_id       INT NOT NULL,
+
+    PRIMARY KEY (student_id, lecture_id, course_id),
+
+    FOREIGN KEY (student_id)
+        REFERENCES student(student_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    FOREIGN KEY (lecture_id, course_id)
+        REFERENCES lecture(lecture_id, course_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE test_attempt (
+    student_id      INT NOT NULL,
+    test_id         INT NOT NULL,
+    timetaken       INT NOT NULL CHECK (timetaken >= 0),
+    marks           INT NOT NULL CHECK (marks >= 0),
+
+    PRIMARY KEY (student_id, test_id),
+
+    FOREIGN KEY (student_id)
+        REFERENCES student(student_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    FOREIGN KEY (test_id)
+        REFERENCES test(test_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
