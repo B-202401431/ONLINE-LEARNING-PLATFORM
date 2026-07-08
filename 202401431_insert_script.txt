@@ -1,0 +1,397 @@
+INSERT INTO administrator (admin_id, name, email, phone, password) VALUES
+(1, 'Chandan', 'chandan@gmail.com', '9825785766', 'chandan@1'),
+(2, 'Nirav', 'nirav@gmail.com', '9835785766', 'nirav@2'),
+(3, 'Jenish', 'jenish@gmail.com', '9825085755', 'jenish@3');
+
+
+INSERT INTO category (category_id, category_name, type) VALUES
+(1, 'Programming', 'Technical'),
+(2, 'Data Science', 'Technical'),
+(3, 'Design', 'Creative'),
+(4, 'Business', 'Management');
+
+
+INSERT INTO subscription (subscription_id, plan_type, duration) VALUES
+(1, 'monthly', 30),
+(2, 'quaterly', 90),
+(3, 'half-year', 180),
+(4, 'year', 365);
+
+
+INSERT INTO student (student_id, name, email, password, phone, profile_details, subscription_date, subscription_id) VALUES
+(101, 'Ravi Patel', 'ravi@gmail.com', 'pass101', '9100000001', 'Interested in programming', '2026-01-05', 1),
+(102, 'Neha Shah', 'neha@gmail.com', 'pass102', '9100000002', 'Interested in design', '2026-01-12', 2),
+(103, 'Amit Joshi', 'amit@gmail.com', 'pass103', '9100000003', 'Learns data science', '2026-01-20', 3),
+(104, 'Priya Mehta', 'priya@gmail.com', 'pass104', '9100000004', 'Business learner', '2026-02-02', 2),
+(105, 'Karan Singh', 'karan@gmail.com', 'pass105', '9100000005', 'Wants job ready skills', '2026-02-10', 4),
+(106, 'Isha Desai', 'isha@gmail.com', 'pass106', '9100000006', 'Frontend learner', '2026-02-14', 1),
+(107, 'Vikas Kumar', 'vikas@gmail.com', 'pass107', '9100000007', 'ML enthusiast', '2026-02-18', 3),
+(108, 'Pooja Nair', 'pooja@gmail.com', 'pass108', '9100000008', 'UI/UX interest', '2026-02-25', 2),
+(109, 'Rohan Verma', 'rohan@gmail.com', 'pass109', '9100000009', 'C++ practice', '2026-03-01', 1),
+(110, 'Anjali Roy', 'anjali@gmail.com', 'pass110', '9100000010', 'Analytics learner', '2026-03-04', 3),
+(111, 'Suresh Yadav', 'suresh@gmail.com', 'pass111', '9100000011', 'Backend developer track', '2026-03-06', 4),
+(112, 'Meera Iyer', 'meera@gmail.com', 'pass112', '9100000012', 'Product design', '2026-03-10', 2),
+(113, 'Nitin Arora', 'nitin@gmail.com', 'pass113', '9100000013', 'Startup interest', '2026-03-12', 1),
+(114, 'Kavya Rao', 'kavya@gmail.com', 'pass114', '9100000014', 'Data analytics', '2026-03-15', 3),
+(115, 'Harsh Jain', 'harsh@gmail.com', 'pass115', '9100000015', 'Programming basics', '2026-03-17', 1),
+(116, 'Simran Gill', 'simran@gmail.com', 'pass116', '9100000016', 'Creative learner', '2026-03-21', 2),
+(117, 'Dev Malhotra', 'dev@gmail.com', 'pass117', '9100000017', 'Business growth', '2026-03-23', 4),
+(118, 'Tanvi Bhatt', 'tanvi@gmail.com', 'pass118', '9100000018', 'Python and ML', '2026-03-26', 3),
+(119, 'Arjun Soni', 'arjun@gmail.com', 'pass119', '9100000019', 'Design systems', '2026-03-29', 2),
+(120, 'Ritika Das', 'ritika@gmail.com', 'pass120', '9100000020', 'Wants mixed learning', '2026-04-01', 4);
+
+
+INSERT INTO educator (educator_id, verification_status, name, email, password, phone, bio, admin_id,salary) VALUES
+(201, 'approved', 'Dr. Arjun Rao', 'educator1@gmail.com', 'ed201', '9200000001', 'Programming expert', 1,75000),
+(202, 'approved', 'Ms. Sneha Kapoor', 'educator2@gmail.com', 'ed202', '9200000002', 'Python and Java instructor', 1,85000),
+(203, 'approved', 'Mr. Vivek Sharma', 'educator3@gmail.com', 'ed203', '9200000003', 'Data science mentor', 2,90000),
+(204, 'approved', 'Dr. Ritu Verma', 'educator4@gmail.com', 'ed204', '9200000004', 'Machine learning trainer', 2,60000),
+(205, 'pending', 'Ms. Pooja Sen', 'educator5@gmail.com', 'ed205', '9200000005', 'UI/UX designer', NULL,70000),
+(206, 'approved', 'Mr. Nikhil Das', 'educator6@gmail.com', 'ed206', '9200000006', 'Graphic design specialist', 3,65000),
+(207, 'approved', 'Dr. Manish Gupta', 'educator7@gmail.com', 'ed207', '9200000007', 'Business strategy mentor', 1,87000),
+(208, 'approved', 'Ms. Rhea Thomas', 'educator8@gmail.com', 'ed208', '9200000008', 'Marketing and startup coach', 2,79000);
+
+
+INSERT INTO course (course_id, number_of_lectures, duration, title, description, price, category_id, admin_id) VALUES
+(301, 3, 18, 'C Programming Basics', 'Intro to C programming', 799.00, 1, 1),
+(302, 3, 20, 'C++ for Beginners', 'C++ fundamentals and OOP', 999.00, 1, 1),
+(303, 3, 22, 'Java Essentials', 'Core Java concepts', 1099.00, 1, 2),
+(304, 3, 24, 'Python Fundamentals', 'Python basics to functions', 1199.00, 1, 2),
+
+(305, 3, 26, 'Statistics for Data Science', 'Stats basics for DS', 1299.00, 2, 1),
+(306, 3, 28, 'Data Analysis with Python', 'Pandas, NumPy and analysis', 1499.00, 2, 1),
+(307, 3, 30, 'Machine Learning Intro', 'ML fundamentals', 1599.00, 2, 2),
+(308, 3, 32, 'SQL for Analytics', 'SQL queries for analytics', 999.00, 2, 2),
+
+(309, 3, 18, 'UI Design Basics', 'User interface design concepts', 899.00, 3, 3),
+(310, 3, 20, 'UX Research Fundamentals', 'Research for product design', 999.00, 3, 3),
+(311, 3, 22, 'Figma Essentials', 'Design using Figma', 1099.00, 3, 2),
+(312, 3, 24, 'Graphic Design Mastery', 'Visual design principles', 1299.00, 3, 3),
+
+(313, 3, 20, 'Business Communication', 'Professional communication', 799.00, 4, 1),
+(314, 3, 22, 'Entrepreneurship 101', 'Startup basics and ideas', 1199.00, 4, 2),
+(315, 3, 24, 'Digital Marketing Basics', 'SEO, ads and campaigns', 1399.00, 4, 3),
+(316, 3, 26, 'Project Management Intro', 'PM concepts and planning', 1499.00, 4, 1);
+
+
+INSERT INTO test (test_id, test_type, course_id) VALUES
+(401, 'quiz', 301),
+(402, 'assignment', 302),
+(403, 'coding_test', 303),
+(404, 'project', 304),
+(405, 'practice_test', 305),
+(406, 'midterm', 306),
+(407, 'final_exam', 307),
+(408, 'case_study', 308),
+(409, 'quiz', 309),
+(410, 'coding_test', 310),
+(411, 'project', 311),
+(412, 'case_study', 312),
+(413, 'midterm', 313),
+(414, 'final_exam', 314),
+(415, 'assignment', 315),
+(416, 'practice_term', 316);
+
+
+INSERT INTO lecture (lecture_id, course_id, duration, video, title) VALUES
+(1, 301, 6, 'c_prog_l1.mp4', 'Introduction to C'),
+(2, 301, 6, 'c_prog_l2.mp4', 'Variables and Data Types'),
+(3, 301, 6, 'c_prog_l3.mp4', 'Control Statements'),
+
+(1, 302, 14, 'cpp_l1.mp4', 'Introduction to C++'),
+(2, 302, 3, 'cpp_l2.mp4', 'Classes and Objects'),
+(3, 302, 3, 'cpp_l3.mp4', 'Inheritance Basics'),
+
+(1, 303, 10, 'java_l1.mp4', 'Java Overview'),
+(2, 303, 5, 'java_l2.mp4', 'OOP in Java'),
+(3, 303, 7, 'java_l3.mp4', 'Exception Handling'),
+
+(1, 304, 10, 'python_l1.mp4', 'Python Syntax'),
+(2, 304, 10, 'python_l2.mp4', 'Functions and Loops'),
+(3, 304, 4, 'python_l3.mp4', 'Lists and Dictionaries'),
+
+(1, 305, 10, 'stats_l1.mp4', 'Mean Median Mode'),
+(2, 305, 6, 'stats_l2.mp4', 'Probability Basics'),
+(3, 305, 10, 'stats_l3.mp4', 'Variance and Standard Deviation'),
+
+(1, 306, 8, 'da_l1.mp4', 'NumPy Basics'),
+(2, 306, 10, 'da_l2.mp4', 'Pandas DataFrames'),
+(3, 306, 10, 'da_l3.mp4', 'Data Cleaning'),
+
+(1, 307, 10, 'ml_l1.mp4', 'What is Machine Learning'),
+(2, 307, 10, 'ml_l2.mp4', 'Supervised Learning'),
+(3, 307, 10, 'ml_l3.mp4', 'Model Evaluation'),
+
+(1, 308, 10, 'sql_l1.mp4', 'SQL Basics'),
+(2, 308, 11, 'sql_l2.mp4', 'Joins and Group By'),
+(3, 308, 11, 'sql_l3.mp4', 'Subqueries'),
+
+(1, 309, 9, 'uid_l1.mp4', 'Principles of UI'),
+(2, 309, 6, 'uid_l2.mp4', 'Typography and Colors'),
+(3, 309, 3, 'uid_l3.mp4', 'Layout Design'),
+
+(1, 310, 8, 'ux_l1.mp4', 'Introduction to UX'),
+(2, 310, 6, 'ux_l2.mp4', 'User Interviews'),
+(3, 310, 6, 'ux_l3.mp4', 'Personas and Journey Maps'),
+
+(1, 311, 11, 'figma_l1.mp4', 'Figma Interface'),
+(2, 311, 6, 'figma_l2.mp4', 'Frames and Components'),
+(3, 311, 5, 'figma_l3.mp4', 'Prototype Basics'),
+
+(1, 312, 10, 'gd_l1.mp4', 'Graphic Design Intro'),
+(2, 312, 7, 'gd_l2.mp4', 'Color Theory'),
+(3, 312, 7, 'gd_l3.mp4', 'Poster Design'),
+
+(1, 313, 10, 'bc_l1.mp4', 'Communication Basics'),
+(2, 313, 5, 'bc_l2.mp4', 'Email and Writing'),
+(3, 313, 5, 'bc_l3.mp4', 'Presentation Skills'),
+
+(1, 314, 10, 'ent_l1.mp4', 'Startup Mindset'),
+(2, 314, 6, 'ent_l2.mp4', 'Idea Validation'),
+(3, 314, 6, 'ent_l3.mp4', 'Business Model Basics'),
+
+(1, 315, 12, 'dm_l1.mp4', 'Marketing Fundamentals'),
+(2, 315, 6, 'dm_l2.mp4', 'SEO Basics'),
+(3, 315, 6, 'dm_l3.mp4', 'Social Media Campaigns'),
+
+(1, 316, 13, 'pm_l1.mp4', 'Project Lifecycle'),
+(2, 316, 6, 'pm_l2.mp4', 'Scheduling and Planning'),
+(3, 316, 7, 'pm_l3.mp4', 'Risk Management');
+
+
+INSERT INTO study_material (material_id, course_id, file_link, description) VALUES
+(1, 301, 'c_prog_notes.pdf', 'C course notes'),
+(1, 302, 'cpp_notes.pdf', 'C++ course notes'),
+(1, 303, 'java_notes.pdf', 'Java course notes'),
+(1, 304, 'python_notes.pdf', 'Python course notes'),
+(1, 305, 'stats_notes.pdf', 'Statistics notes'),
+(1, 306, 'data_analysis_notes.pdf', 'Data analysis notes'),
+(1, 307, 'ml_notes.pdf', 'Machine learning notes'),
+(1, 308, 'sql_notes.pdf', 'SQL analytics notes'),
+(1, 309, 'ui_notes.pdf', 'UI design notes'),
+(1, 310, 'ux_notes.pdf', 'UX research notes'),
+(1, 311, 'figma_notes.pdf', 'Figma notes'),
+(1, 312, 'graphic_design_notes.pdf', 'Graphic design notes'),
+(1, 313, 'business_comm_notes.pdf', 'Business communication notes'),
+(1, 314, 'entrepreneurship_notes.pdf', 'Entrepreneurship notes'),
+(1, 315, 'digital_marketing_notes.pdf', 'Digital marketing notes'),
+(1, 316, 'pm_notes.pdf', 'Project management notes');
+
+
+INSERT INTO question (question_id, test_id, marks, question_text) VALUES
+(1, 401, 3, 'What is a variable in C?'),
+(2, 401, 4, 'Explain if-else in C.'),
+(1, 402, 10, 'What is a class in C++?'),
+(2, 402, 15, 'Explain inheritance.'),
+(1, 403, 7, 'What is JVM?'),
+(2, 403, 6, 'Explain exception handling.'),
+(1, 404, 5, 'What is a list in Python?'),
+(2, 404, 5, 'Explain dictionaries.'),
+(1, 405, 2, 'Define mean and median.'),
+(2, 405, 3, 'What is variance?'),
+(1, 406, 4, 'What is a DataFrame?'),
+(2, 406, 5, 'Why is data cleaning needed?'),
+(1, 407, 9, 'What is supervised learning?'),
+(2, 407, 11, 'What is overfitting?'),
+(1, 408, 8, 'What is a JOIN in SQL?'),
+(2, 408, 7, 'What is GROUP BY?'),
+(1, 409, 11, 'What makes a good UI?'),
+(1, 410, 14, 'What is UX research?'),
+(1, 414, 5, 'What is idea validation?'),
+(1, 416, 12, 'What is project planning?');
+
+
+
+INSERT INTO teaches (course_id, educator_id) VALUES
+(301, 201),
+(302, 201),
+(303, 202),
+(304, 202),
+(305, 203),
+(306, 203),
+(307, 204),
+(308, 204),
+(309, 201),
+(310, 201),
+(311, 206),
+(312, 206),
+(313, 207),
+(314, 207),
+(315, 208),
+(316, 208);
+
+
+INSERT INTO enrolls (student_id, course_id, enrollment_date) VALUES
+(101, 301, '2026-01-06'),
+(101, 302, '2026-01-08'),
+(101, 304, '2026-01-09'),
+
+(102, 309, '2026-01-13'),
+(102, 310, '2026-01-14'),
+(102, 311, '2026-01-16'),
+
+(103, 305, '2026-01-21'),
+(103, 306, '2026-01-24'),
+(103, 307, '2026-01-26'),
+
+(104, 313, '2026-02-03'),
+(104, 314, '2026-02-05'),
+
+(105, 302, '2026-02-11'),
+(105, 308, '2026-02-12'),
+(105, 316, '2026-02-13'),
+
+(106, 304, '2026-02-15'),
+(106, 309, '2026-02-16'),
+
+(107, 305, '2026-02-19'),
+(107, 307, '2026-02-20'),
+(107, 308, '2026-02-22'),
+
+(108, 309, '2026-02-26'),
+(108, 311, '2026-02-27'),
+(108, 312, '2026-02-28'),
+
+(109, 301, '2026-03-02'),
+(109, 302, '2026-03-03'),
+(109, 303, '2026-03-04'),
+
+(110, 305, '2026-03-05'),
+(110, 306, '2026-03-06'),
+(110, 308, '2026-03-07'),
+
+(111, 303, '2026-03-07'),
+(111, 304, '2026-03-08'),
+(111, 316, '2026-03-09'),
+
+(112, 310, '2026-03-11'),
+(112, 311, '2026-03-12'),
+
+(113, 313, '2026-03-13'),
+(113, 314, '2026-03-14'),
+(113, 315, '2026-03-15'),
+
+(114, 305, '2026-03-16'),
+(114, 306, '2026-03-16'),
+(114, 307, '2026-03-17'),
+
+(115, 301, '2026-03-18'),
+(115, 304, '2026-03-19');
+
+
+INSERT INTO review (student_id, course_id, rating, comment) VALUES
+(101, 301, 5, 'Very clear basics'),
+(101, 302, 4, 'Good introduction to C++'),
+(102, 309, 5, 'Excellent UI course'),
+(102, 310, 4, 'Helpful examples'),
+(103, 305, 5, 'Statistics explained well'),
+(103, 306, 4, 'Useful for beginners'),
+(104, 313, 4, 'Good communication tips'),
+(104, 314, 5, 'Great startup insights'),
+(105, 302, 4, 'Nice pace'),
+(105, 308, 5, 'Very practical SQL course'),
+(106, 304, 5, 'Python made easy'),
+(107, 307, 4, 'ML concepts are simple'),
+(108, 311, 5, 'Loved the Figma lessons'),
+(108, 312, 4, 'Good design examples'),
+(109, 303, 4, 'Java basics covered well'),
+(110, 306, 5, 'Strong data analysis content'),
+(111, 316, 4, 'Project management useful'),
+(112, 310, 5, 'Very good UX foundation'),
+(113, 315, 4, 'Marketing basics are clear'),
+(114, 307, 5, 'Best beginner ML course');
+
+
+INSERT INTO bookmark (student_id, lecture_id, course_id) VALUES
+(101, 1, 301),
+(101, 2, 302),
+(101, 3, 304),
+(102, 1, 309),
+(102, 2, 310),
+(103, 1, 305),
+(103, 2, 306),
+(103, 3, 307),
+(104, 1, 313),
+(105, 2, 308),
+(106, 1, 304),
+(106, 2, 309),
+(107, 2, 307),
+(108, 1, 311),
+(108, 2, 312),
+(109, 3, 303),
+(110, 1, 306),
+(111, 2, 316),
+(112, 3, 310),
+(113, 1, 315);
+
+
+INSERT INTO test_attempt (student_id, test_id, timetaken, marks) VALUES
+(101, 401, 18, 8),
+(101, 402, 20, 7),
+(101, 404, 16, 9),
+
+(102, 409, 14, 9),
+(102, 410, 17, 8),
+(102, 411, 18, 9),
+
+(103, 405, 22, 8),
+(103, 406, 24, 7),
+(103, 407, 25, 8),
+
+(104, 413, 15, 7),
+(104, 414, 18, 9),
+
+(105, 402, 21, 6),
+(105, 408, 19, 9),
+(105, 416, 23, 8),
+
+(106, 404, 15, 10),
+(106, 409, 16, 8),
+
+(107, 405, 20, 7),
+(107, 407, 24, 9),
+(107, 408, 18, 8),
+
+(108, 411, 17, 10),
+(108, 412, 21, 8),
+
+(109, 401, 17, 7),
+(109, 402, 20, 8),
+(109, 403, 22, 7),
+
+(110, 406, 19, 9);
+
+
+INSERT INTO lecture_progress (student_id, lecture_id, course_id, completed_at, status) VALUES
+(101, 1, 301, '2026-01-07 10:00:00', 'completed'),
+(101, 2, 301, '2026-01-07 11:00:00', 'completed'),
+(101, 1, 302, '2026-01-09 09:30:00', 'completed'),
+(101, 2, 302, NULL, 'in_progress'),
+(101, 1, 304, '2026-01-10 12:00:00', 'completed'),
+
+(102, 1, 309, '2026-01-14 14:00:00', 'completed'),
+(102, 2, 309, '2026-01-14 15:00:00', 'completed'),
+(102, 1, 310, NULL, 'in_progress'),
+(102, 1, 311, '2026-01-17 13:00:00', 'completed'),
+
+(103, 1, 305, '2026-01-22 10:00:00', 'completed'),
+(103, 2, 305, NULL, 'in_progress'),
+(103, 1, 306, '2026-01-25 16:00:00', 'completed'),
+(103, 1, 307, '2026-01-27 17:00:00', 'completed'),
+
+(104, 1, 313, '2026-02-04 10:30:00', 'completed'),
+(104, 1, 314, NULL, 'in_progress'),
+
+(105, 1, 302, '2026-02-12 11:20:00', 'completed'),
+(105, 1, 308, '2026-02-13 12:20:00', 'completed'),
+(105, 2, 308, NULL, 'in_progress'),
+
+(106, 1, 304, '2026-02-16 09:00:00', 'completed'),
+(106, 2, 304, '2026-02-16 10:00:00', 'completed'),
+(106, 1, 309, NULL, 'in_progress'),
+
+(107, 1, 307, '2026-02-21 11:00:00', 'completed'),
+(107, 1, 308, '2026-02-23 11:30:00', 'completed'),
+
+(108, 1, 311, '2026-02-28 14:30:00', 'completed'),
+(108, 1, 312, NULL, 'in_progress');
