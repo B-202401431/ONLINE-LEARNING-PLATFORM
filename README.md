@@ -192,7 +192,7 @@ ON UPDATE CASCADE
 ├── 202401431_entity_relationship_diagram.pdf
 ├── 202401431_relational_diagram.pdf
 ├── 202401431_insert_script.txt
-├── select_queries.sql
+├── 202401431_sql_select_queries.txt
 └── README.md
 ```
 
