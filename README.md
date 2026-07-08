@@ -191,7 +191,7 @@ ON UPDATE CASCADE
 ├── 202401431_ddl_script.txt
 ├── 202401431_entity_relationship_diagram.pdf
 ├── 202401431_relational_diagram.pdf
-├── insert_script.sql
+├── 202401431_insert_script.txt
 ├── select_queries.sql
 └── README.md
 ```
